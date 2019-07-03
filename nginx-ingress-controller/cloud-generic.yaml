@@ -21,3 +21,7 @@ spec:
     - name: https
       port: 443
       targetPort: https
+    - name: proxied-tcp-25565
+      port: 25565
+      targetPort: 25565
+      protocol: TCP
