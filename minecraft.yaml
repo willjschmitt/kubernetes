@@ -30,6 +30,10 @@ spec:
           # Use secret in real usage
         - name: EULA
           value: "true"
+        - name: TYPE
+          value: "CURSEFORGE"
+        - name: CF_SERVER_MOD
+          value: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-3/download/2721020/file"
         - name: MEMORY
           value: "4G"
         ports:
