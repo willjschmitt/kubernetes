@@ -30,12 +30,24 @@ spec:
           # Use secret in real usage
         - name: EULA
           value: "true"
+        - name: MEMORY
+          value: "4G"
         ports:
         - containerPort: 25565
           name: main
         volumeMounts:
         - name: mc-data
           mountPath: /data
+        resources:
+          requests:
+            memory: "4000Mi"
+          limits:
+            memory: "4000Mi"
+      tolerations:
+        - key: "memory"
+          operator: "Equal"
+          value: "high"
+          effect: NoExecute
       volumes:
       - name: mc-data
         emptyDir: {}
