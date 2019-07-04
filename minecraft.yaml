@@ -10,6 +10,17 @@ spec:
   selector:
     app: mc-vanilla
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mc-vanilla-datadir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -54,4 +65,5 @@ spec:
           effect: NoExecute
       volumes:
       - name: mc-data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: mc-vanilla-datadir
