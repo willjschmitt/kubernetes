@@ -1,0 +1,50 @@
+# DNS01 configuration followed from instructions:
+# https://cert-manager.io/docs/configuration/acme/dns01/google/
+# Commands run to create the service account:
+# $ export PROJECT_ID=core-song-155902
+# $ gcloud iam service-accounts create dns01-solver --display-name "dns01-solver"
+# $ gcloud projects add-iam-policy-binding $PROJECT_ID \
+#    --member serviceAccount:dns01-solver@$PROJECT_ID.iam.gserviceaccount.com \
+#    --role roles/dns.admin
+# $ gcloud iam service-accounts keys create key.json \
+#    --iam-account dns01-solver@$PROJECT_ID.iam.gserviceaccount.com
+# $ kubectl create secret generic clouddns-dns01-solver-svc-acct \
+#    --from-file=key.json
+
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: 'will@wschmitt.com'
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - dns01:
+          clouddns:
+            project: core-song-155902
+            serviceAccountSecretRef:
+              name: clouddns-dns01-solver-svc-acct
+              key: key.json
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'will@wschmitt.com'
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - dns01:
+          clouddns:
+            project: core-song-155902
+            serviceAccountSecretRef:
+              name: clouddns-dns01-solver-svc-acct
+              key: key.json
