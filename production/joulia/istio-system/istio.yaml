@@ -1,6 +1,16 @@
 apiVersion: install.istio.io/v1alpha2
 kind: IstioControlPlane
 spec:
+  telemetry:
+    enabled: true
+    components:
+      telemetry:
+        k8s:
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+
   values:
     nodeagent:
       enabled: true
@@ -63,9 +73,6 @@ spec:
             cpu: 50m
             memory: 100Mi
 
-      telemetry:
-        enabled: false
-
       adapters:
         stdio:
           enabled: true
@@ -92,7 +99,7 @@ spec:
 
         resources:
           requests:
-            cpu: 100m
+            cpu: 50m
             memory: 100Mi
 
       istio-egressgateway:
