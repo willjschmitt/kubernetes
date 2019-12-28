@@ -1,0 +1,104 @@
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  values:
+    nodeagent:
+      enabled: true
+      image: node-agent-k8s
+      env:
+        CA_PROVIDER: "Citadel"
+        CA_ADDR: "istio-citadel:8060"
+        VALID_TOKEN: true
+
+
+    global:
+      controlPlaneSecurityEnabled: true
+
+      mtls:
+        enabled: true
+
+      sds:
+        enabled: true
+        udsPath: "unix:/var/run/sds/uds_path"
+        token:
+          aud: "istio-ca"
+
+      proxy:
+        accessLogFile: "/dev/stdout"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+
+      disablePolicyChecks: false
+
+      # All outbound traffic must be explicitly registered through service registry
+      # and routed through the egress gateway via virtual services and destination
+      # rules.
+      # outboundTrafficPolicy:
+      #   mode: REGISTRY_ONLY
+
+    sidecarInjectorWebhook:
+      enabled: true
+      # If true, webhook or istioctl injector will rewrite PodSpec for liveness
+      # health check to redirect request to sidecar. This makes liveness check work
+      # even when mTLS is enabled.
+      rewriteAppHTTPProbe: false
+
+    pilot:
+      enabled: true
+      autoscaleEnabled: true
+      traceSampling: 100.0
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+
+    mixer:
+      policy:
+        enabled: true
+        autoscaleEnabled: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+
+      telemetry:
+        enabled: false
+
+      adapters:
+        stdio:
+          enabled: true
+
+    grafana:
+      enabled: false
+
+    tracing:
+      enabled: false
+
+    kiali:
+      enabled: false
+
+    gateways:
+      istio-ingressgateway:
+        enabled: true
+
+        # Swaps SSL certs into ingress gateway.
+        sds:
+          enabled: true
+
+        autoscaleEnabled: true
+        autoscaleMin: 1
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
+      istio-egressgateway:
+        enabled: false
+
+    # Cert manager is managed in our cluster directly, so we want to explicitly
+    # avoid conflicting, despite it disabled by default.
+    certmanager:
+      enabled: false
