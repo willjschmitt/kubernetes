@@ -1,0 +1,10 @@
+# helm repo add stable http://storage.googleapis.com/kubernetes-charts
+# Release: openvpn-gateway
+# Chart: stable/openvpn
+openvpn:
+  OVPN_K8S_POD_NETWORK: "10.40.0.0"
+  OVPN_K8S_POD_SUBNET: "255.252.0.0"
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
