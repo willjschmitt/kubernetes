@@ -56,6 +56,16 @@ spec:
           volumeMounts:
           - mountPath: /config
             name: config-directory
+        - name: openvpn-proxy
+          image: "kylemanna/openvpn"
+          command: ["/usr/sbin/openvpn", "--config", "/var/openvpn/kubernetes-cluster.ovpn"]
+          volumeMounts:
+          - mountPath: /var/openvpn
+            name: openvpn-profile
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+            privileged: true
       volumes:
       - name: config-directory
         persistentVolumeClaim:
@@ -63,6 +73,9 @@ spec:
       - name: configuration-yaml
         configMap:
           name: home-assistant-configuration
+      - name: openvpn-profile
+        secret:
+          secretName: home-assistant-openvpn-profile
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
