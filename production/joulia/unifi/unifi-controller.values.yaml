@@ -1,0 +1,10 @@
+# Chart: stable/unifi
+# Release: unifi-controller
+image:
+  tag: 5.12.35
+
+guiService:
+  type: ClusterIP
+
+controllerService:
+  type: ClusterIP

@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: home-assistant
+        config-version: '2'
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -43,14 +44,14 @@ spec:
             httpGet:
               path: /
               port: api
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             failureThreshold: 5
             timeoutSeconds: 10
           readinessProbe:
             httpGet:
               path: /
               port: api
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             failureThreshold: 5
             timeoutSeconds: 10
           volumeMounts:
@@ -100,6 +101,13 @@ data:
   configuration.yaml: |
     # Configure a default setup of Home Assistant (frontend, api, etc)
     default_config:
+    homeassistant:
+      latitude: 36.9754076
+      longitude: -121.9465917
+      unit_system: imperial
+      elevation: 0
+      time_zone: America/Los_Angeles
+      name: El Salto
 
     # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
     # http:
@@ -109,10 +117,86 @@ data:
     tts:
       - platform: google_translate
 
+    # Unifi is set up with the host and password as an integration in the UI.
+    unifi:
+      controllers:
+        - host: 10.43.252.154:8443
+          site: Default
+
+    system_health:
+
+    hue:
+      bridges:
+        - host: 192.168.85.238
+          allow_hue_groups: true
+
+    person:
+      - name: Will
+        id: will
+        device_trackers:
+          # This is her personal phone.
+          - device_tracker.wills_pixel
+
+      - name: Sarah
+        id: sarah
+        device_trackers:
+          - device_tracker.sarahs_iphone
+
+      - name: Katie
+        id: katie
+        device_trackers:
+          - device_tracker.katies_iphone
+
+      - name: Kendra
+        id: kendra
+        device_trackers:
+          - device_tracker.kendra_iphone
+
+      - name: Pat
+        id: pat
+        device_trackers:
+          - device_tracker.pats_iphone
+
+    camera:
+      - platform: generic
+        name: front_door
+        still_image_url: "http://192.168.85.254/cgi-bin/api.cgi?cmd=Snap&amp;channel=0&amp;rs=wuuPhkmUCeI9WG7C&amp;user=admin&amp;password=t!sg%D9vu%5pZH*Q"
+        stream_source: "rtsp://admin:t!sg%D9vu%5pZH*Q@192.168.85.254:554/h264Preview_01_main"
+
+    #Enable stream
+    stream:
+
     group: !include groups.yaml
     automation: !include automations.yaml
     script: !include scripts.yaml
     scene: !include scenes.yaml
+
+    lovelace:
+      mode: yaml
+
+  ui-lovelace.yaml: |
+    title: El Salto
+
+    views:
+      - path: default_view
+        title: Home
+        badges:
+          - entity: person.will
+          - entity: person.sarah
+          - entity: person.kendra
+          - entity: person.katie
+          - entity: person.pat
+          - entity: sun.sun
+        cards:
+          - type: weather-forecast
+            entity: weather.home
+          - type: iframe
+            url: >-
+              https://embed.windy.com/embed2.html?lat=36.9754076&lon=-121.9465917&zoom=6&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=-36.851&detailLon=174.768&metricWind=default&metricTemp=default&radarRange=-1
+            aspect_ratio: 50%
+          - type: picture-entity
+            entity: camera.front_door
+
 
   groups.yaml: ''
   automations.yaml: ''
