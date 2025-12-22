@@ -4,6 +4,7 @@ config.iml
 
 # Unencrypted helm-secrets secrets files
 *.yaml.dec
+*.dec.yaml
 
 # Local .terraform directories
 .terraform/

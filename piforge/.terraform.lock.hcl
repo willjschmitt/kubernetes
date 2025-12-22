@@ -1,6 +1,43 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/carlpett/sops" {
+  version     = "1.3.0"
+  constraints = ">= 1.2.0"
+  hashes = [
+    "h1:1s+/dN/3Ob7UQHJtSZqrZWd1bzHk6v9FaXl158TUWxo=",
+    "zh:3ea1911d6e5f45aa4f3cadc4457a69c57af599df7ee12c7f46977212f1477e06",
+    "zh:54a0c509596392908213ccde07c9be140fc707dbd8699bb68a5d248e1c454ee8",
+    "zh:67683b36e11a7f5cd790467798428834bee7d7640017673e658435734d4fea6b",
+    "zh:8949626f40b6c7dfaaccb82587b0903cfea8b086b573153b2133143125bf8734",
+    "zh:c295b628dacecf54c53ad149427a6940c97e4ac70dce0efebb2a8784ed57b8dc",
+    "zh:e0c01959d8bb5153a85e77283cc11ec9615d979029e3ad0b0be34706354fffe2",
+    "zh:e2f8085f8f7c3aa43302229963e64decfdf2e0b6dd43ee1eaf365d31bcd488e4",
+  ]
+}
+
+provider "registry.terraform.io/cloudposse/utils" {
+  version     = "1.31.0"
+  constraints = ">= 1.31.0"
+  hashes = [
+    "h1:Vg+MqH3eEv50tedfLLhGMvjLrmAqmcgaYDjNCKXNNMQ=",
+    "zh:0798bffbed04a4fbd887fc3519bf9c893cf58fd77ed0114d13b98687460ee76c",
+    "zh:0b79d48f10694f7cff3a9d97252d16923a3d1c22bd6d5e58d0c9aee102f1754d",
+    "zh:18816dfbb429c2100dd1c3b76c8db2d648874341d8ad139e4b51c74e253b2b39",
+    "zh:2d63cb4aa7878483cb913331427c98a1667b02029e47d2d4cccc9c5330ecef70",
+    "zh:4c93b080dda77fceeeb46e6a485c54efe2d9818732f802d008391d17c83ca8cb",
+    "zh:5e6c9b042be70235c5801d22d248a65b976e5c08ad19c7be5bf153af65752f3a",
+    "zh:6dd1fec83c2c8da7937fbd12ebd2f4a448393632061a8e3f38df134b031572bf",
+    "zh:730a18ce87f00e595d130292e53246690da5ada9f01008d826996f7b0c4d3717",
+    "zh:734dca8db206c9b24a43ab5023a1a6f1948c9c87482309f0de2e1c0c0d8d3b8d",
+    "zh:84f9927004ae9e0603bcad545fa1efdfc8ef42b4178f6a1a21434bb173ab671d",
+    "zh:9a5bff9484171a876a19fa746659b2f76eb970e15d60396eac66b256a29c25c0",
+    "zh:ae8afae13cebb368f302b756f5e8f53b03c5b36915d6025fc96ba24a9d9ea45c",
+    "zh:e0b9c4af643932e2d52f9cfdd6ef2c0fb24073e262d55b0b5f9f587fc031aecd",
+    "zh:fd007830b480d91ed9236246a40762a5ed7ed956d48a9b6523b065d7f4140900",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/helm" {
   version     = "3.0.2"
   constraints = ">= 3.0.2"

@@ -12,6 +12,14 @@ terraform {
       source  = "tailscale/tailscale"
       version = ">= 0.21.1"
     }
+    sops = {
+      source = "carlpett/sops"
+      version = ">= 1.2.0"
+    }
+    utils = {
+      source  = "cloudposse/utils"
+      version = ">= 1.31.0"
+    }
   }
 }
 
@@ -26,5 +34,7 @@ provider "helm" {
     config_context = "schmitt-piforge-home"
   }
 }
+
+provider "utils" {}
 
 provider "tailscale" {}

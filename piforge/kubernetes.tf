@@ -21,3 +21,32 @@ resource "helm_release" "home-assistant" {
     kubernetes_namespace.home-assistant,
   ]
 }
+
+// ============================================================================
+// Tailscale Operator
+// ============================================================================
+
+resource "kubernetes_namespace" "tailscale" {
+  metadata {
+    name = "tailscale"
+  }
+}
+
+data "sops_file" "tailscale-oauth-secret" {
+  source_file = "tailscale-operator.secrets.enc.yaml"
+  input_type  = "yaml"
+}
+
+resource "helm_release" "tailscale" {
+  name       = "tailscale-operator"
+
+  repository = "https://pkgs.tailscale.com/helmcharts"
+  chart      = "tailscale-operator"
+  version    = "1.86.5"
+
+  namespace = kubernetes_namespace.tailscale.metadata[0].name
+
+  values = [
+    data.sops_file.tailscale-oauth-secret.raw,
+  ]
+}
