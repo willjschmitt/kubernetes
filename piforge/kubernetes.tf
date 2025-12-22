@@ -22,6 +22,26 @@ resource "helm_release" "home-assistant" {
   ]
 }
 
+resource "kubernetes_namespace" "unifi" {
+  metadata {
+    name = "unifi"
+  }
+}
+
+resource "helm_release" "unifi" {
+  name       = "unifi"
+
+  repository = "oci://ghcr.io/mkilchhofer/unifi-chart"
+  chart      = "unifi"
+  version    = "1.16.0"
+
+  namespace = kubernetes_namespace.unifi.metadata[0].name
+
+  values = [
+    file("k8s-apps/unifi/unifi.values.yaml")
+  ]
+}
+
 // ============================================================================
 // Tailscale Operator
 // ============================================================================
