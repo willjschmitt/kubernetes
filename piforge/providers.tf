@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/helm"
       version = ">= 3.0.2"
     }
+    tailscale = {
+      source  = "tailscale/tailscale"
+      version = ">= 0.21.1"
+    }
   }
 }
 
@@ -22,3 +26,5 @@ provider "helm" {
     config_context = "schmitt-piforge-home"
   }
 }
+
+provider "tailscale" {}
