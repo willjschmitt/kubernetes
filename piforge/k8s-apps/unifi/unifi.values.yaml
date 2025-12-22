@@ -1,3 +1,8 @@
+controllerService:
+  type: NodePort
+  # So we have a reliable port for the controller inform to be found at.
+  nodePort: 30080
+
 guiService:
   # So we have a reliable port to access the GUI from
   type: NodePort
