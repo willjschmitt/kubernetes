@@ -1,0 +1,8 @@
+guiService:
+  # So we have a reliable port to access the GUI from
+  type: NodePort
+  nodePort: 30443
+
+  annotations:
+    "tailscale.com/expose": "true"
+    "tailscale.com/hostname": "unifi"
