@@ -5,6 +5,11 @@ persistence:
   # Uses host storage from k3s.
   storageClass: "local-path"
 
+service:
+  annotations:
+    "tailscale.com/expose": "true"
+    "tailscale.com/hostname": "home-assistant"
+
 # Configuration for Home Assistant
 configuration:
   # Enable or disable the configuration setup for Home Assistant
