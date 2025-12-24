@@ -10,6 +10,22 @@ service:
     "tailscale.com/expose": "true"
     "tailscale.com/hostname": "home-assistant"
 
+
+# Required so that the container can access the host device (USB-RS485 adapter).
+# TODO(willjschmitt): Remove this once we migrate to a modbus TCP proxy.
+securityContext:
+  privileged: true 
+
+# Mounting the growatt solar inverter data via its USB serial converter.
+additionalVolumes:
+  - name: growatt-inverter-modbus-rtu
+    hostPath:
+      path: /dev/ttyUSB0
+      type: CharDevice
+additionalMounts:
+  - mountPath: /dev/ttyUSB0
+    name: growatt-inverter-modbus-rtu
+
 # Configuration for Home Assistant
 configuration:
   # Enable or disable the configuration setup for Home Assistant
