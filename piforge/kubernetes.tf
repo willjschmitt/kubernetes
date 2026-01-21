@@ -42,6 +42,10 @@ resource "helm_release" "unifi" {
   ]
 }
 
+# resource "kubernetes_manifest" "wake-on-lan-proxy" {
+#   manifest = yamldecode(file("k8s-apps/home-assistant/wake-on-lan-proxy.yaml"))
+# }
+#
 // ============================================================================
 // Tailscale Operator
 // ============================================================================

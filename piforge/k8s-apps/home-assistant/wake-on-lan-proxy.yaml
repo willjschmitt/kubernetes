@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: wakeonlan
+  name: wakeonlan
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: wakeonlan
+  name: wakeonlan
+spec:
+  selector:
+    matchLabels:
+      app: wakeonlan
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wakeonlan
+    spec:
+      hostNetwork: true
+      containers:
+        - image: alpine/socat:latest
+          name: socat
+          args:
+            - -dd
+            - UDP4-RECVFROM:9999,fork,reuseaddr
+            - UDP4-DATAGRAM:255.255.255.255:9,broadcast
+          ports:
+            - name: wol
+              containerPort: 9
+              protocol: UDP
+          resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: wakeonlan
+  name: wakeonlan
+spec:
+  ports:
+  - name: wol
+    port: 9999
+    protocol: UDP
+    targetPort: 9999
+  selector:
+    app: wakeonlan
+  type: ClusterIP
+  # type: LoadBalancer
+  # loadBalancerIP: 12.34.56.78 # my-wake-on-lan-doimain.home
